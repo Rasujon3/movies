@@ -7,7 +7,7 @@ class Pagination extends Component {
     const totalPages = Math.ceil(totalItems / pageCount) + 1;
     const pages = _.range(1, totalPages, 1);
     return (
-      <nav aria-label="Page navigation example">
+      <nav aria-label="Page navigation example d-flex flex-wrap">
         <ul class="pagination">
           <li
             class="page-item"
