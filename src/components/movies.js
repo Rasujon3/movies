@@ -1,14 +1,15 @@
 import React, { Component } from "react";
 import Pagination from "./common/pagination";
-import { getMovies } from "../services/movies.service";
+import { getGenres, getMovies } from "../services/movies.service";
 import Filter from "./common/filtering";
 
 class Movies extends Component {
   state = {
     movies: getMovies(),
-    genres: ["Crime", "Romantic", "Drama", "Action", "Thriller"],
+    genres: [{ name: "All Genres" }, ...getGenres()],
     activePage: 1,
     pageCount: 10,
+    selectedGenre: "All Genres",
   };
   handleClickPage = (page) => {
     this.setState({ ...this.state, activePage: page });
@@ -21,12 +22,21 @@ class Movies extends Component {
     return paginatedMovies;
   };
 
+  handleClickGenre = (genre) => {
+    console.log(genre);
+    this.setState({ ...this.state, selectedGenre: genre });
+  };
+
   render() {
     const movies = this.paginatedMovies();
     return (
       <>
         <div className="row">
-          <Filter genres={this.state.genres} />
+          <Filter
+            genres={this.state.genres}
+            onClickGenre={this.handleClickGenre}
+            selectedGenre={this.state.selectedGenre}
+          />
           <div className="col-lg-8 col-sm-6 col-md-6">
             <h3>Showing {movies.length} movies</h3>
             <br />
