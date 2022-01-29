@@ -6,6 +6,9 @@ class Pagination extends Component {
     const { totalItems, pageCount, activePage, onClickPage } = this.props;
     const totalPages = Math.ceil(totalItems / pageCount) + 1;
     const pages = _.range(1, totalPages, 1);
+    if (totalItems <= pageCount) {
+      return null;
+    }
     return (
       <nav aria-label="Page navigation example d-flex flex-wrap">
         <ul class="pagination">

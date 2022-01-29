@@ -15,20 +15,31 @@ class Movies extends Component {
     this.setState({ ...this.state, activePage: page });
   };
 
-  paginatedMovies = () => {
-    const { movies, activePage, pageCount } = this.state;
+  paginatedMovies = (movies) => {
+    const { activePage, pageCount } = this.state;
     const start = (activePage - 1) * pageCount;
     const paginatedMovies = movies.slice(start, start + pageCount);
     return paginatedMovies;
   };
 
   handleClickGenre = (genre) => {
-    console.log(genre);
-    this.setState({ ...this.state, selectedGenre: genre });
+    this.setState({ ...this.state, selectedGenre: genre, activePage: 1 });
+  };
+
+  filterMovie = () => {
+    const { movies, selectedGenre } = this.state;
+
+    const filterMovies = movies.filter((movie) => {
+      if (selectedGenre === "All Genres") return true;
+      if (movie.genres.includes(selectedGenre)) return true;
+      return false;
+    });
+    return filterMovies;
   };
 
   render() {
-    const movies = this.paginatedMovies();
+    const filtered = this.filterMovie();
+    const movies = this.paginatedMovies(filtered);
     return (
       <>
         <div className="row">
@@ -38,7 +49,7 @@ class Movies extends Component {
             selectedGenre={this.state.selectedGenre}
           />
           <div className="col-lg-8 col-sm-6 col-md-6">
-            <h3>Showing {movies.length} movies</h3>
+            <h3>Showing {filtered.length} movies</h3>
             <br />
             <table class="table">
               <thead>
@@ -80,7 +91,7 @@ class Movies extends Component {
         </div>
 
         <Pagination
-          totalItems={this.state.movies.length}
+          totalItems={filtered.length}
           pageCount={this.state.pageCount}
           activePage={this.state.activePage}
           onClickPage={this.handleClickPage}
