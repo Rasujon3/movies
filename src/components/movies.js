@@ -43,6 +43,7 @@ class Movies extends Component {
     return (
       <>
         <div className="row">
+          <h3 className="text-center">Top Movies List</h3>
           <Filter
             genres={this.state.genres}
             onClickGenre={this.handleClickGenre}
